@@ -1,0 +1,19 @@
+$set(artist,$if2(%albumartist%,%artist%))
+$set(artist,$if($eq($left(%artist%,4),The ),$rreplace(%artist%,^The ,)\, The,%artist%))
+$set(album,$if($eq($left(%album%,4),The ),$rreplace(%album%,^The ,)\, The,%album%))
+$set(album,$if(%discsubtitle%,%album%-%discnumber%-%discsubtitle%,%album%))
+$set(_date_,$if2($left(%originaldate%,4),$left(%date%,4)))
+$set(_tracktitle_,$if($gt(%totaldiscs%,1),%discnumber%-%tracknumber%-%title%,%tracknumber%-%title%))
+$set(_tat_,$if($gt(%totaldiscs%,1),%discnumber%-%tracknumber%-%artist%-%title%,%tracknumber%-%artist%-%title%))
+
+
+$if2(
+	$if($eq($len(%musicbrainz_albumid%),0),00nmb/%artist%/%album%/%_tracktitle_%),
+	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tat_%),
+	$if(
+		$and(
+			$lt($matchedtracks(),%totaltracks%),
+			$lt($matchedtracks(),60)
+		),00incomplete/%artist%/%album%/%_tracktitle_%),
+	%artist%/%album%-%_date_%/%_tracktitle_%
+)
