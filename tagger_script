@@ -1,0 +1,20 @@
+$set(title,$rreplace(%title%,\\s\\\(feat. [^\)]+\\\),))
+$set(artist,$rreplace(%artist%,\\s\\\(feat. [^\)]+\\\),))
+$set(albumartist,$rreplace(%albumartist%,\\s\\\(feat. [^\)]+\\\),))
+
+$set(title,$replace(%title%,...,…))
+$set(album,$replace(%album%,...,…))
+$set(artist,$replace(%artist%,...,…))
+
+$set(title,$replace(%title%,/,_))
+$set(album,$replace(%album%,/,_))
+$set(artist,$replace(%artist%,/,_))
+
+$set(title,$replace(%title%,:,-))
+$set(album,$replace(%album%,:,-))
+$set(artist,$replace(%artist%,:,-))
+
+$set(title,$replace(%title%,?,))
+$set(album,$replace(%album%,?,))
+$set(artist,$replace(%artist%,?,))
+
