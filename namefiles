@@ -8,7 +8,6 @@ $set(_tracktitle_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%title%,%_t
 $set(_tat_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%artist%-%title%,%_tn_%%artist%-%title%))
 
 $if($eq(%_extension%,flac),00flac/)
-
 $if2(
 	$if($eq($len(%musicbrainz_albumid%),0),00nmb/%artist%/%album%/%_tracktitle_%),
 	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tat_%),
