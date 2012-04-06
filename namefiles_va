@@ -3,9 +3,11 @@ $set(albumartist,$if($eq($left(%albumartist%,4),The ),$rreplace(%albumartist%,^T
 $set(album,$if($eq($left(%album%,4),The ),$rreplace(%album%,^The ,)\, The,%album%))
 $set(album,$if(%discsubtitle%,%album%-%discnumber%-%discsubtitle%,%album%))
 $set(_date_,$if2($left(%originaldate%,4),$left(%date%,4)))
-$set(_tracktitle_,$if($gt(%totaldiscs%,1),%discnumber%-%tracknumber%-%title%,%tracknumber%-%title%))
-$set(_tat_,$if($gt(%totaldiscs%,1),%discnumber%-%tracknumber%-%artist%-%title%,%tracknumber%-%artist%-%title%))
+$if(%tracknumber%,$if($gt($len(%tracknumber%),2),$set(_tn_,$num(%tracknumber%,3)-),$set(_tn_,$num(%tracknumber%,2)-)))
+$set(_tracktitle_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%title%,%_tn_%%title%))
+$set(_tat_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%artist%-%title%,%_tn_%%artist%-%title%))
 
+$if($eq(%_extension%,flac),00flac/)
 
 $if2(
 	$if($eq($len(%musicbrainz_albumid%),0),00nmb/00va-%album%/%_tat_%),
