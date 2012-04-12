@@ -6,15 +6,14 @@ $set(_date_,$if2($left(%originaldate%,4),$left(%date%,4)))
 $if(%tracknumber%,$if($gt($len(%tracknumber%),2),$set(_tn_,$num(%tracknumber%,3)-),$set(_tn_,$num(%tracknumber%,2)-)))
 $set(_tracktitle_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%title%,%_tn_%%title%))
 $set(_tat_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%artist%-%title%,%_tn_%%artist%-%title%))
-
-$if($eq(%_extension%,flac),00flac/)
+$if($eq(%_extension%,flac),flac-music/,music/)
 $if2(
 	$if($eq($len(%musicbrainz_albumid%),0),00nmb/%artist%/%album%/%_tracktitle_%),
-	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tat_%),
 	$if(
 		$and(
 			$lt($matchedtracks(),%totaltracks%),
 			$lt($matchedtracks(),60)
 		),00incomplete/%artist%/%album%/%_tracktitle_%),
+	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tat_%),
 	%artist%/%album%-%_date_%/%_tracktitle_%
 )
