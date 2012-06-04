@@ -1,0 +1,48 @@
+$if($eq(%compilation%,1),
+$noop(Various Artist albums)
+$set(artist,$if($eq($left(%artist%,4),The ),$rreplace(%artist%,^The ,)\, The,%artist%))
+$set(albumartist,$if($eq($left(%albumartist%,4),The ),$rreplace(%albumartist%,^The ,)\, The,%albumartist%))
+$set(album,$if($eq($left(%album%,4),The ),$rreplace(%album%,^The ,)\, The,%album%))
+$set(album,$if(%discsubtitle%,%album%-%discnumber%-%discsubtitle%,%album%))
+$set(_date_,$if2($left(%originaldate%,4),$left(%date%,4)))
+$set(_tn_,$if(%tracknumber%,$if($eq(%tracknumber%,0),,$if($gt($len(%tracknumber%),2),$num(%tracknumber%,3)-,$num(%tracknumber%,2)-))))
+$set(_tnt_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%title%,%_tn_%%title%))
+$set(_tnat_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%artist%-%title%,%_tn_%%artist%-%title%))
+$if($eq(%_extension%,flac),flac-music/,Music/)
+$if2(
+	$if($eq($len(%musicbrainz_albumid%),0),00nmb/00va-%album%/%_tnat_%),
+	$if(
+		$and(
+			$lt($matchedtracks(),%totaltracks%),
+			$lt($matchedtracks(),60)
+		),00incomplete/00va-%album%/%_tnat_%),
+	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
+	$if(
+		$and(
+			$eq(%compilation%,1),
+			$eq(%albumartist%,Various Artists)
+		),00va/%album%-%_date_%/%_tnat_%,),
+	
+	%albumartist%/%album%-%_date_%/%_tnt_%
+),
+$noop(Single Artist Albums)
+$set(artist,$if2(%albumartist%,%artist%))
+$set(artist,$if($eq($left(%artist%,4),The ),$rreplace(%artist%,^The ,)\, The,%artist%))
+$set(album,$if($eq($left(%album%,4),The ),$rreplace(%album%,^The ,)\, The,%album%))
+$set(album,$if(%discsubtitle%,%album%-%discnumber%-%discsubtitle%,%album%))
+$set(_date_,$if2($left(%originaldate%,4),$left(%date%,4)))
+$set(_tn_,$if(%tracknumber%,$if($eq(%tracknumber%,0),,$if($gt($len(%tracknumber%),2),$num(%tracknumber%,3)-,$num(%tracknumber%,2)-))))
+$set(_tnt_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%title%,%_tn_%%title%))
+$set(_tnat_,$if($gt(%totaldiscs%,1),$num(%discnumber%,2)-%_tn_%%artist%-%title%,%_tn_%%artist%-%title%))
+$if($eq(%_extension%,flac),flac-music/,Music/)
+$if2(
+	$if($eq($len(%musicbrainz_albumid%),0),00nmb/%artist%/%album%/%_tnt_%),
+	$if(
+		$and(
+			$lt($matchedtracks(),%totaltracks%),
+			$lt($matchedtracks(),60)
+		),00incomplete/%artist%/%album%/%_tnt_%),
+	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
+	%artist%/%album%-%_date_%/%_tnt_%
+))
+
