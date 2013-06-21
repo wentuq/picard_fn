@@ -16,7 +16,7 @@ $if2(
 			$lt($matchedtracks(),%totaltracks%),
 			$lt($matchedtracks(),60)
 		),00incomplete/00va-%album%/%_tnat_%),
-	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
+	$if($inmulti(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
 	$if(
 		$and(
 			$eq(%compilation%,1),
@@ -42,7 +42,7 @@ $if2(
 			$lt($matchedtracks(),%totaltracks%),
 			$lt($matchedtracks(),60)
 		),00incomplete/%artist%/%album%/%_tnt_%),
-	$if($eq(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
+	$if($inmulti(%releasetype%,soundtrack),00ost/%album%-%_date_%/%_tnat_%),
 	%artist%/%album%-%_date_%/%_tnt_%
 ))
 
